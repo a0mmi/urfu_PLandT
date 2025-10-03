@@ -18,6 +18,9 @@ using db = double;
 using vdb = vector<double>;
 
 int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
     db x11, y11, x21, y21;
     db x12, y12, x22, y22;
     cin >> x11 >> y11 >> x21 >> y21;

@@ -28,6 +28,9 @@ bool islp(int y) {
 }
 
 int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
     int d, m, y;
     cin >> d >> m >> y;
     int dim[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
