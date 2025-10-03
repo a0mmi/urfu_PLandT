@@ -17,6 +17,10 @@ using vvll = vector<vll>;
 using db = double;
 using vdb = vector<db>;
 
+db dist(db x1, db y1, db x2, db y2) {
+    return sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
+}
+
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
@@ -28,8 +32,8 @@ int main() {
     db dy = y2 - y1;
     db lnsq = dx * dx + dy * dy;
     if (lnsq == 0) {
-        db dist = sqrt((x - x1) * (x - x1) + (y - y1) * (y - y1));
-        cout << dist;
+        db d = dist(x1, y1, x, y);
+        cout << d;
         return 0;
     }
 
@@ -38,7 +42,7 @@ int main() {
 
     db x0 = x1 + t * dx;
     db y0 = y1 + t * dy;
-    db dist = sqrt((x - x0) * (x - x0) + (y - y0) * (y - y0));
-    cout << dist;
+
+    cout << min(min(dist(x, y, x0, y0), dist(x, y, x2, y2)), dist(x, y, x1, y1));
     return 0;
 }
