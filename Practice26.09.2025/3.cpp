@@ -17,9 +17,6 @@ using vvll = vector<vll>;
 using db = double;
 using vdb = vector<double>;
 
-#include <iostream>
-using namespace std;
-
 bool islp(int y) {
     if (y % 400 == 0) return true;
     if (y % 100 == 0) return false;

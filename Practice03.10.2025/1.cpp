@@ -66,7 +66,7 @@ int main() {
         Vec AB = B - A, AC = C - A;
         if(AB.dot(AC) == 0 && AB.norm2() == AC.norm2() && AB.norm2() > 0){
             Vec D = B + C - A;
-            cout<< "YES\n" << D;
+            cout << "YES\n" << D;
             return 0;
         }
     }
