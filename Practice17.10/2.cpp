@@ -16,24 +16,19 @@ using vvi = vector<vi>;
 using vvll = vector<vll>;
 using db = double;
 using vdb = vector<double>;
+using vs = vector<string>;
 
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-    
-    string s;
-    cin >> s;
+    string n;
+    cin >> n;
 
-    sort(all(s), greater<char>());
-
-    bool allZero = true;
-    for(char c : s) {
-        if (c != '0') {
-            allZero = false;
-            break;
+    vi rem(10, 0);
+    for (char ch : n) {
+        rem[ch - '0']++;
+    }
+    for (int i = 9; i > 0; i--) {
+        for (int j = 0; j < rem[i]; j++) {
+            cout << i;
         }
     }
-    if(allZero) cout << "0\n";
-    else cout << s << '\n';
-    return 0;
 }

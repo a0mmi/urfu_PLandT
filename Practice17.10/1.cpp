@@ -16,29 +16,20 @@ using vvi = vector<vi>;
 using vvll = vector<vll>;
 using db = double;
 using vdb = vector<double>;
+using vs = vector<string>;
 
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
+    int n;
+    cin >> n;
 
-    string s;
-    cin >> s;
-
-    vi rem(10, 0);
-    for(char ch : s) {
-        int d = ch - '0';
-        for(int k = 1; k <= 9; ++k) {
-            rem[k] = (rem[k] * 10 + d) % k;
+    while (n != 0) {
+        int d = n % 10;
+        if (d != 0 && n % d == 0) {
+            cout << "YES";
+            return 0;
         }
+        n /= 10;
     }
-
-    bool ok = false;
-    for(char ch : s) {
-        int d = ch - '0';
-        if(d == 0) continue;
-        if(rem[d] == 0) { ok = true; break; }
-    }
-
-    cout << (ok ? "YES" : "NO") << '\n';
+    cout << "NO";
     return 0;
 }
