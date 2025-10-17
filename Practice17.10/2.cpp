@@ -1,4 +1,4 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
 
 #define forn(i, l, r) for(int i = l; i < r; ++i)
@@ -15,25 +15,25 @@ using vll = vector<ll>;
 using vvi = vector<vi>;
 using vvll = vector<vll>;
 using db = double;
-using vdb = vector<db>;
-using bl = bool;
+using vdb = vector<double>;
 
 int main() {
     ios::sync_with_stdio(false);
-    cin.tie(NULL);
+    cin.tie(nullptr);
+    
+    string s;
+    cin >> s;
 
-    ll n;
-    cin >> n;
-    ll m = n;
-    bl ok = false;
-    while (m > 0 ) {
-        int d = m % 10;
-        m /= 10;
-        if (d != 0 && n % d == 0) {
-            ok = true;
+    sort(all(s), greater<char>());
+
+    bool allZero = true;
+    for(char c : s) {
+        if (c != '0') {
+            allZero = false;
             break;
         }
     }
-    cout << (ok ? "YES" : "NO") << '\n';
+    if(allZero) cout << "0\n";
+    else cout << s << '\n';
     return 0;
 }
