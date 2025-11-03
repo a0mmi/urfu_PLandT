@@ -21,6 +21,7 @@ using vs = vector<string>;
 int main() {
     int a, b;
     cin >> a >> b;
+
     string res = "0.";
     ll r = a;
     map<ll, int> rempos;
