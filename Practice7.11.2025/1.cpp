@@ -40,14 +40,14 @@ string arabicToRoman(const int* digits, int n) {
         {10, "X"}, {9, "IX"}, {5, "V"}, {4, "IV"}, {1, "I"}
     };
 
-    string result;
-    for (int i = 0; i < mapSize; ++i) {
+    string res;
+    forn (i, 0, mapSize) {
         while (num >= romanMap[i].num) {
-            result += romanMap[i].ch;
+            res += romanMap[i].ch;
             num -= romanMap[i].num;
         }
     }
-    return result;
+    return res;
 }
 
 int main() {
