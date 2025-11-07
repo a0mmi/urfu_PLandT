@@ -1,4 +1,5 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
+#include "DynamicArray.h"
 using namespace std;
 
 #define forn(i, l, r) for(int i = l; i < r; ++i)
@@ -21,42 +22,6 @@ using vs = vector<string>;
 struct pis {
     int num;
     string ch;
-};
-
-struct DynamicArray {
-    int* data;
-    size_t size;
-    size_t capacity;
-    
-    DynamicArray() : data(nullptr), size(0), capacity(0) {}
-    
-    ~DynamicArray() {
-        delete[] data;
-    }
-    
-    void push_back(int value) {
-        if (size == capacity) {
-            size_t new_capacity = (capacity == 0) ? 1 : capacity * 2;
-            int* new_data = new int[new_capacity];
-            
-            for (size_t i = 0; i < size; ++i) {
-                new_data[i] = data[i];
-            }
-
-            delete[] data;
-            data = new_data;
-            capacity = new_capacity;
-        }
-        data[size++] = value;
-    }
-    
-    const int* get_data() const {
-        return data;
-    }
-
-    size_t get_size() const {
-        return size;
-    }
 };
 
 string arabicToRoman(const int* digits, size_t n) {
@@ -104,7 +69,7 @@ bool isMirrorCopy(const int* arr1, const int* arr2, size_t n) {
 
 int main() {
     {
-        DynamicArray arr;
+        DynamicArray<int> arr;
         arr.push_back(1);
         arr.push_back(9);
         arr.push_back(9);
@@ -115,12 +80,12 @@ int main() {
     }
 
     {
-        DynamicArray a;
+        DynamicArray<int> a;
         a.push_back(1);
         a.push_back(23);
         a.push_back(456);
         
-        DynamicArray b;
+        DynamicArray<int> b;
         b.push_back(654);
         b.push_back(32);
         b.push_back(1);
@@ -128,7 +93,7 @@ int main() {
         cout << "res 1: " 
              << (isMirrorCopy(a.get_data(), b.get_data(), a.get_size()) ? "YES" : "NO") << endl; // YES
 
-        DynamicArray c;
+        DynamicArray<int> c;
         c.push_back(456);
         c.push_back(23);
         c.push_back(1);
