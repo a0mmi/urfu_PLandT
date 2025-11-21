@@ -16,6 +16,7 @@ using vvi = vector<vi>;
 using vvll = vector<vll>;
 using db = double;
 using vdb = vector<double>;
+using ull = unsigned long long;
 
 const int MAX = 1e3 + 5;
 const int INF = 1e9 + 7;

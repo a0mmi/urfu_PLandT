@@ -62,7 +62,7 @@ int main() {
                 ld cosv = (s1 + s2 - L2) / denom;
                 if (cosv > 1.0L) cosv = 1.0L;
                 if (cosv < -1.0L) cosv = -1.0L;
-                ld ang = acosl(cosv); 
+                ld ang = acosl(cosv);
                 
                 if (ang > (M_PI / 2.0L) && ang > bestAngle) {
                     bestAngle = ang;
