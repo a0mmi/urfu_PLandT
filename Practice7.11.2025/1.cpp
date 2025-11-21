@@ -2,23 +2,8 @@
 using namespace std;
 
 #define forn(i, l, r) for(int i = l; i < r; ++i)
-#define all(a) (a).begin(), (a).end()
-#define f first
-#define s second
-#define pb push_back
-#define mp make_pair
 
-using ll = long long;
-using pii = pair<int, int>;
-using vi = vector<int>;
-using vll = vector<ll>;
-using vvi = vector<vi>;
-using vvll = vector<vll>;
-using db = double;
-using vdb = vector<double>;
-using vs = vector<string>;
-
-struct pis {
+struct pisi {
     int num;
     string ch;
 };
@@ -34,7 +19,7 @@ string arabicToRoman(const int* digits, int n) {
     }
 
     const int mapSize = 13;
-    const pis romanMap[mapSize] = {
+    const pisi romanMap[mapSize] = {
         {1000, "M"}, {900, "CM"}, {500, "D"}, {400, "CD"},
         {100, "C"}, {90, "XC"}, {50, "L"}, {40, "XL"},
         {10, "X"}, {9, "IX"}, {5, "V"}, {4, "IV"}, {1, "I"}
@@ -51,8 +36,8 @@ string arabicToRoman(const int* digits, int n) {
 }
 
 int main() {
-    const int n = 2;
-    const int arr[n] = {1, 0};
+    const int n = 4;
+    const int arr[n] = {3, 8, 8, 8};
 
     string res = arabicToRoman(arr, n);
     cout << "res: " << res << endl;

@@ -19,7 +19,7 @@ using db = double;
 using vdb = vector<double>;
 using vs = vector<string>;
 
-struct pis {
+struct pisi {
     int num;
     string ch;
 };
@@ -33,7 +33,7 @@ string arabicToRoman(const int* digits, size_t n) {
         return "";
     }
     const int mapSize = 13;
-    const pis romanMap[mapSize] = {
+    const pisi romanMap[mapSize] = {
         {1000, "M"}, {900, "CM"}, {500, "D"}, {400, "CD"},
         {100, "C"}, {90, "XC"}, {50, "L"}, {40, "XL"},
         {10, "X"}, {9, "IX"}, {5, "V"}, {4, "IV"}, {1, "I"}
