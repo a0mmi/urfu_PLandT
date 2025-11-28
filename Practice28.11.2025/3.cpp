@@ -9,7 +9,7 @@ Matrix<int> generatePattern(int n) {
     int mod = sz;
     forn(i, 0, sz) {
         forn(j, 0, sz) {
-            M[i][j] = ((j - i + mod) % mod) + 1;
+            M[i][j] = ((j - i + mod) % mod) + 1; // ((j + i) % m) + 1 - влево, если желание есть (k = (j − i) % m)
         }
     }
     return M;
