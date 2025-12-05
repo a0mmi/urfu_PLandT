@@ -2,25 +2,23 @@
 using namespace std;
 
 using ll = long long;
+using ull = unsigned long long;
 
-bool check(const int *a, int i, int len) {
-    if (i >= len - 1) return true;
-    if (!(a[i] > a[i + 1])) return false;
-    return check(a, i + 1, len);
+bool check(const int a) {
+    if (a < 10) return true;
+    if ((a % 100 / 10) <= (a % 10)) return false;
+    return check(a / 10);
 }
 
 int main() {
-    ll n;
+    ull n;
     cin >> n;
 
     string s = to_string(n);
 
     int len = (int)s.size();
-    int *arr = new int[len];
-    for (int i = 0; i < len; ++i) arr[i] = s[i] - '0';
-    bool ans = check(arr, 0, len);
+    bool ans = check(n);
     cout << (ans ? "YES" : "NO") << '\n';
-    delete[] arr;
 
     return 0;
 }
