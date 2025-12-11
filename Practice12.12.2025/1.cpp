@@ -25,6 +25,7 @@ int main() {
     forn(i, n)
         forn(j, n)
             T[i][j] = ((i + j) % 2 == (n - 1) % 2) ? 0 : 1;
+            // T[i][j] = !((i + j) % 2 == (n - 1) % 2);
     
     print_matrix(T);
 }
