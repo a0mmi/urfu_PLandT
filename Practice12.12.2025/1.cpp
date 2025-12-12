@@ -36,10 +36,10 @@ int main() {
     unsigned int n;
     cin >> n;
 
-    shi *data = new shi[ (size_t)n * n ];
+    shi *data = new shi[n * n];
     shi **T = new shi*[n];
     for (unsigned int i = 0; i < n; ++i)
-        *(T + i) = data + (size_t)i * n;
+        *(T + i) = data + i * n;
     
     for (unsigned int i = 0; i < n; ++i) {
         shi *row = *(T + i);
