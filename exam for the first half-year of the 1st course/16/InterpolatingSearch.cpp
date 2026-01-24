@@ -19,7 +19,7 @@ void bubleSort(int *arr) {
     }
 }
 
-int binarySearch(int *arr, int key) {
+int interpolatingSearch(int *arr, int key) {
     int l = 0, r = sizeof(arr);
     int mid;
 
@@ -51,6 +51,6 @@ int main() {
     int key;
     cin >> key;
 
-    cout << binarySearch(a, key) << endl;
+    cout << interpolatingSearch(a, key) << endl;
     return 0;
 }

@@ -12,7 +12,6 @@ void EratostheneSieve(int n) {
             }
         }
     }
-    
 }
 
 int main() {
