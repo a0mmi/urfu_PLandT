@@ -22,13 +22,13 @@ matrix::matrix(const matrix& other) {
     }
 }
 
-matrix::matrix(matrix&& other) {
+matrix::matrix(matrix&& other) { // переношу указатель, а не копирую матрицу
     n = other.n;
     m = other.m;
     data = other.data;
     other.n = other.m = 0;
-    other.data = nullptr;
-}
+    other.data = nullptr; // обнуляю старый объект
+} // matrix A = B * C; -- теперь эта матрица владеет тем же массивом памяти.
 
 matrix& matrix::operator=(const matrix& other) {
     if (this == &other) return *this;
@@ -94,14 +94,14 @@ matrix matrix::operator*(const matrix& other) const {
     return R;
 }
 
-bool matrix::isIdentity(double eps) const {
+bool matrix::isIdentity(double eps) const { // Проверка на единичную матрицу
     if (n != m) return false;
     if (n == 0) return false;
     for (ll i = 0; i < n; ++i) {
         for (ll j = 0; j < m; ++j) {
             double v = data[i * m + j];
-            if (i == j) {
-                if (fabs(v - 1.0) > eps) return false;
+            if (i == j) { // На диагонали
+                if (fabs(v - 1.0) > eps) return false; // `Является ли матрица единичной с учётом погрешности eps`  
             } else {
                 if (fabs(v) > eps) return false;
             }
