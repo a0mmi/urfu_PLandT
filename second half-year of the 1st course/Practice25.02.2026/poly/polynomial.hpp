@@ -26,6 +26,7 @@ public:
     Polynomial& operator-=(const Polynomial& other);
     Polynomial& operator*=(const Polynomial& other);
     Polynomial& operator/=(const Polynomial& other);
+    Polynomial& operator%=(const Polynomial& other);
 
     friend istream& operator>>(istream& in, Polynomial& p);
     friend ostream& operator<<(ostream& out, const Polynomial& p);

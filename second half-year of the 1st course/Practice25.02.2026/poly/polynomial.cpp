@@ -40,7 +40,7 @@ ll Polynomial::get_coef(int i) const {
 void Polynomial::set_coef(int i, ll val) {
     if (i < 0) throw invalid_argument("Polynomial::set_coef: index must be non-negative");
     if (i > degree) {
-        // расширяем массив
+        // расширяю массив
         ll* newcoef = new ll[i + 1];
         for (int j = 0; j <= i; ++j) newcoef[j] = 0;
         for (int j = 0; j <= degree; ++j) newcoef[j] = coef[j];
@@ -56,13 +56,13 @@ int Polynomial::get_degree() const {
     for (int i = degree; i > 0; --i) {
         if (coef[i] != 0) return i;
     }
-    // даже если все нули, возвращаем 0 (нулевой многочлен)
+    // даже если все нули, возвращаю 0 (нулевой многочлен)
     return 0;
 }
 
 ll Polynomial::eval(ll x) const {
     // Horner
-    int d = get_degree();
+    int d = degree;
     ll res = 0;
     for (int i = d; i >= 0; --i) {
         res = res * x + coef[i];
@@ -71,7 +71,7 @@ ll Polynomial::eval(ll x) const {
 }
 
 Polynomial Polynomial::derivative() const {
-    int d = get_degree();
+    int d = degree;
     if (d == 0) {
         Polynomial r(0);
         r.coef[0] = 0;
@@ -159,7 +159,7 @@ Polynomial& Polynomial::operator/=(const Polynomial& other) {
         coef[0] = 0;
         return *this;
     }
-    // временно копируем коэффициенты делимого в динамический массив (чтобы было удобно изменять)
+    // временно копирую коэффициенты делимого в динамический массив (чтобы было удобно изменять)
     ll* rem = new ll[da + 1];
     for (int i = 0; i <= da; ++i) rem[i] = coef[i];
     ll b_lead = other.coef[db];
@@ -172,7 +172,7 @@ Polynomial& Polynomial::operator/=(const Polynomial& other) {
         if (b_lead != 0) {
             factor = rcoef / b_lead; // целочисленное деление
         } else {
-            // на практике b_lead не равен 0 (мы проверили), но оставим защиту
+            // на практике b_lead не равен 0, но оставлю защиту
             delete[] rem;
             delete[] q;
             throw domain_error("Polynomial: unexpected zero leading coefficient in divisor");
@@ -185,7 +185,7 @@ Polynomial& Polynomial::operator/=(const Polynomial& other) {
             }
         }
     }
-    // запишем частное обратно в this
+    // запишу частное обратно в this
     delete[] coef;
     degree = qdeg;
     coef = new ll[degree + 1];
@@ -209,9 +209,9 @@ istream& operator>>(istream& in, Polynomial& p) {
     for (int i = 0; i <= p.degree; ++i) {
         ll v;
         if (!(in >> v)) {
-            // если чтение коэффициента неудачно, пометим поток и вернём
+            // если чтение коэффициента неудачно, помечу поток и верну
             in.setstate(ios::failbit);
-            // оставшаяся память уже назначена — норм.
+            // оставшаяся память уже назначена
             return in;
         }
         p.coef[i] = v;
@@ -220,8 +220,8 @@ istream& operator>>(istream& in, Polynomial& p) {
 }
 
 ostream& operator<<(ostream& out, const Polynomial& p) {
-    int d = p.get_degree();
-    out << d;
+    int d = p.degree;
+    out << "degreee = " << d << '|';
     for (int i = 0; i <= d; ++i) {
         out << " " << p.coef[i];
     }
@@ -243,7 +243,7 @@ Polynomial operator/(const Polynomial& a, const Polynomial& b) {
 }
 
 Polynomial operator%(const Polynomial& a, const Polynomial& b) {
-    // вернём остаток a % b
+    // верну остаток a % b
     int da = a.get_degree();
     int db = b.get_degree();
     // проверка на нулевой делитель
@@ -268,7 +268,7 @@ Polynomial operator%(const Polynomial& a, const Polynomial& b) {
             for (int j = 0; j <= db; ++j) rem[qi + j] -= factor * b.coef[j];
         }
     }
-    // найдем степень остатка (макс индекс < db с ненулевым)
+    // найду степень остатка (макс индекс < db с ненулевым)
     int rdeg = 0;
     for (int i = db - 1; i >= 0; --i) {
         if (rem[i] != 0) { rdeg = i; break; }
@@ -279,3 +279,8 @@ Polynomial operator%(const Polynomial& a, const Polynomial& b) {
     delete[] rem;
     return r;
 }
+
+Polynomial& Polynomial::operator%=(const Polynomial& other) {
+    *this = (*this) % other;
+    return *this;
+} // Забыл
