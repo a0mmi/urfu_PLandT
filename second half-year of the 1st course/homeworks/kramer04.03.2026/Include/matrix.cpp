@@ -30,6 +30,23 @@ matrix::matrix(matrix&& other) { // переношу указатель, а не
     other.data = nullptr; // обнуляю старый объект
 } // matrix A = B * C; -- теперь эта матрица владеет тем же массивом памяти.
 
+matrix::matrix(initializer_list<initializer_list<double>> list) {
+    data = nullptr;
+    int rows = (int)list.size();
+    int cols = rows ? (int)list.begin()->size() : 0;
+    allocate_and_zero(rows, cols);
+    int i = 0;
+    for (auto &r : list) {
+        if ((int)r.size() != cols) throw invalid_argument("initializer_list: inconsistent row size");
+        int j = 0;
+        for (auto &v : r) {
+            data[i * m + j] = v;
+            ++j;
+        }
+        ++i;
+    }
+}
+
 matrix& matrix::operator=(const matrix& other) {
     if (this == &other) return *this;
     delete[] data;
@@ -91,22 +108,71 @@ matrix& matrix::operator*=(const matrix& other) {
             }
         }
     }
-    this->n = n; this->m = other.m;
-    for (ll i = 0; i < n; ++i)
-        for (ll k = 0; k < m; ++k)
-            data[i * m + k] = R.data[i * m + k];
+    delete[] data;
+    this->n = R.n; this->m = R.m;
+    if (n == 0 || m == 0) {
+        data = nullptr;
+    } else {
+        data = new double[n * m];
+        for (ll i = 0, S = n * m; i < S; ++i) data[i] = R.data[i];
+    }
     return *this;
 }
 
 matrix& matrix::operator-=(const matrix& other) {
-    if (n != other.n || m != other.m) throw invalid_argument("matrix::operator*=: dimension mismatch");
+    if (n != other.n || m != other.m) throw invalid_argument("matrix::operator-=: dimension mismatch");
+    if (n == 0 || m == 0) return *this;
+    if (!data || !other.data) throw invalid_argument("matrix::operator-=: uninitialized data");
+    for (ll i = 0, S = n * m; i < S; ++i) data[i] -= other.data[i];
+    return *this;
 }
 
 matrix& matrix::operator+=(const matrix& other) {
-
+    if (n != other.n || m != other.m) throw invalid_argument("matrix::operator+=: dimension mismatch");
+    if (n == 0 || m == 0) return *this;
+    if (!data || !other.data) throw invalid_argument("matrix::operator+=: uninitialized data");
+    for (ll i = 0, S = n * m; i < S; ++i) data[i] += other.data[i];
+    return *this;
 }
 
+matrix& matrix::operator*=(double s) {
+    if (!data) return *this;
+    for (ll i = 0, S = n * m; i < S; ++i) data[i] *= s;
+    return *this;
+}
+
+matrix& matrix::operator+=(double s) {
+    if (!data) return *this;
+    for (ll i = 0, S = n * m; i < S; ++i) data[i] += s;
+    return *this;
+}
+
+matrix& matrix::operator-=(double s) {
+    if (!data) return *this;
+    for (ll i = 0, S = n * m; i < S; ++i) data[i] -= s;
+    return *this;
+}
+
+matrix operator+(matrix a, const matrix &b) { a += b; return a; }
+matrix operator-(matrix a, const matrix &b) { a -= b; return a; }
 matrix operator*(matrix a, const matrix &b) { a *= b; return a; }
+
+matrix operator+(matrix a, double s) { a += s; return a; }
+matrix operator-(matrix a, double s) { a -= s; return a; }
+matrix operator*(matrix a, double s) { a *= s; return a; }
+
+matrix operator*(double s, matrix a) { a *= s; return a; }
+matrix operator+(double s, matrix a) { a += s; return a; }
+matrix operator-(double s, matrix a) {
+    int rows = a.getRows();
+    int cols = a.getCols();
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            a(i, j) = s - a(i, j);
+        }
+    }
+    return a;
+}
 
 bool matrix::isIdentity(double eps) const { // Проверка на единичную матрицу
     if (n != m) return false;
@@ -200,7 +266,6 @@ istream& operator>>(istream& in, matrix& A) {
 
 ostream& operator<<(ostream& out, const matrix& A) {
     out << A.getRows() << ' ' << A.getCols() << '\n';
-    out << fixed << setprecision(10);
     for (int i = 0; i < A.getRows(); ++i) {
         for (int j = 0; j < A.getCols(); ++j) {
             out << A(i, j);

@@ -17,6 +17,8 @@ class matrix {
         matrix(int rows = 0, int cols = 0);
         matrix(const matrix& other);
         matrix(matrix&& other);
+        matrix(initializer_list<initializer_list<double>> list);
+
         matrix& operator=(const matrix& other);
         matrix& operator=(matrix&& other);
         ~matrix();
@@ -37,10 +39,20 @@ class matrix {
         matrix& operator+=(const matrix& other);
         matrix& operator-=(const matrix& other);
         matrix& operator*=(const matrix& other);
+        matrix& operator+=(double s);
+        matrix& operator-=(double s);
+        matrix& operator*=(double s);
 
         friend matrix operator+(matrix a, const matrix& b);
         friend matrix operator-(matrix a, const matrix& b);
         friend matrix operator*(matrix a, const matrix& b);
+        friend matrix operator*(matrix a, double s);
+        friend matrix operator*(double s, matrix a);
+        friend matrix operator+(matrix a, double s);
+        friend matrix operator+(double s, matrix a);
+        friend matrix operator-(matrix a, double s);
+        friend matrix operator-(double s, matrix a);
+
 
         // checks
         bool isIdentity(double eps = 1e-9) const;
