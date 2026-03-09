@@ -34,7 +34,13 @@ class matrix {
 
         // basic operations
         matrix transpose() const;
-        matrix operator*(const matrix& other) const;
+        matrix& operator+=(const matrix& other);
+        matrix& operator-=(const matrix& other);
+        matrix& operator*=(const matrix& other);
+
+        friend matrix operator+(matrix a, const matrix& b);
+        friend matrix operator-(matrix a, const matrix& b);
+        friend matrix operator*(matrix a, const matrix& b);
 
         // checks
         bool isIdentity(double eps = 1e-9) const;

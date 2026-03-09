@@ -78,8 +78,8 @@ matrix matrix::transpose() const {
     return T;
 }
 
-matrix matrix::operator*(const matrix& other) const {
-    if (m != other.n) throw invalid_argument("matrix::operator*: dimension mismatch");
+matrix& matrix::operator*=(const matrix& other) {
+    if (m != other.n) throw invalid_argument("matrix::operator*=: dimension mismatch");
     matrix R((int)n, (int)other.m);
     // простой тройной цикл -- можно оптимизировать
     for (ll i = 0; i < n; ++i) {
@@ -91,8 +91,35 @@ matrix matrix::operator*(const matrix& other) const {
             }
         }
     }
-    return R;
+    delete[] data;
+    this->n = n; this->m = other.m;
+    if (n == 0 || m == 0) {
+        data = nullptr;
+    } else {
+        data = new double[n * m];
+        for (ll i = 0, S = n * m; i < S; ++i) data[i] = R.data[i];
+    }
+    return *this;
 }
+
+matrix& matrix::operator-=(const matrix& other) {
+    if (n != other.n || m != other.m) throw invalid_argument("matrix::operator-=: dimension mismatch");
+    if (n == 0 || m == 0) return *this;
+    if (!data || !other.data) throw invalid_argument("matrix::operator-=: uninitialized data");
+    for (ll i = 0, S = n * m; i < S; ++i) data[i] -= other.data[i];
+    return *this;
+}
+
+matrix& matrix::operator+=(const matrix& other) {
+    if (n != other.n || m != other.m) throw invalid_argument("matrix::operator+=: dimension mismatch");
+    if (n == 0 || m == 0) return *this;
+    if (!data || !other.data) throw invalid_argument("matrix::operator+=: uninitialized data");
+    for (ll i = 0, S = n * m; i < S; ++i) data[i] += other.data[i];
+    return *this;
+}
+
+matrix operator+(matrix a, const matrix &b) { a += b; return a; }
+matrix operator-(matrix a, const matrix &b) { a -= b; return a; }
 
 bool matrix::isIdentity(double eps) const { // Проверка на единичную матрицу
     if (n != m) return false;
@@ -114,6 +141,46 @@ bool matrix::isOrthogonal(double eps) const {
     if (n != m) return false;
     matrix prod = (*this) * this->transpose();
     return prod.isIdentity(eps);
+}
+
+double matrix::determinant(double eps) const {
+    int nn = getRows();
+    if (nn != getCols()) throw invalid_argument("determinant: matrix must be square");
+    if (nn == 0) return 1.0; // соглашение
+
+    // создаём копию для приведения к верхнетреугольной форме
+    matrix A = *this;
+    int sign = 1;
+    for (int i = 0; i < nn; ++i) {
+        // partial pivot
+        int pivot = i;
+        double maxv = fabs(A.data[i * nn + i]);
+        for (int r = i + 1; r < nn; ++r) {
+            double v = fabs(A.data[r * nn + i]);
+            if (v > maxv) { maxv = v; pivot = r; }
+        }
+        if (maxv <= eps) return 0.0;
+        if (pivot != i) {
+            // swap rows i and pivot
+            for (int c = 0; c < nn; ++c) {
+                double tmp = A.data[i * nn + c];
+                A.data[i * nn + c] = A.data[pivot * nn + c];
+                A.data[pivot * nn + c] = tmp;
+            }
+            sign = -sign;
+        }
+        double aii = A.data[i * nn + i];
+        for (int r = i + 1; r < nn; ++r) {
+            double factor = A.data[r * nn + i] / aii;
+            if (factor == 0.0) continue;
+            for (int c = i; c < nn; ++c) {
+                A.data[r * nn + c] -= factor * A.data[i * nn + c];
+            }
+        }
+    }
+    double det = (sign == 1 ? 1.0 : -1.0);
+    for (int i = 0; i < nn; ++i) det *= A.data[i * nn + i];
+    return det;
 }
 
 void matrix::fill(double val) {

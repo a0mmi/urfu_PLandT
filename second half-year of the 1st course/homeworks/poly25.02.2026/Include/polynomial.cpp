@@ -196,6 +196,44 @@ Polynomial& Polynomial::operator/=(const Polynomial& other) {
     return *this;
 }
 
+Polynomial& Polynomial::operator%=(const Polynomial& other) {
+    // верну остаток a % b
+    int da = this->degree;
+    int db = other.degree;
+    // проверка на нулевой делитель
+    bool b_zero = true;
+    for (int i = 0; i <= db; ++i) {
+        if (other.coef[i] != 0) { b_zero = false; break; }
+    }
+    if (b_zero) throw std::domain_error("Polynomial: division by zero polynomial");
+    if (da < db) {
+        // остаток = a
+        return *this;
+    }
+    ll* rem = new ll[da + 1];
+    for (int i = 0; i <= da; ++i) rem[i] = coef[i];
+    ll b_lead = other.coef[db];
+    for (int k = da; k >= db; --k) {
+        ll rcoef = rem[k];
+        ll factor = 0;
+        if (b_lead != 0) factor = rcoef / b_lead;
+        int qi = k - db;
+        if (factor != 0) {
+            for (int j = 0; j <= db; ++j) rem[qi + j] -= factor * other.coef[j];
+        }
+    }
+    // найду степень остатка (макс индекс < db с ненулевым)
+    int rdeg = 0;
+    for (int i = db - 1; i >= 0; --i) {
+        if (rem[i] != 0) { rdeg = i; break; }
+    }
+    this->degree = rdeg;
+    for (int i = 0; i <= rdeg; ++i) this->coef[i] = rem[i];
+
+    delete[] rem;
+    return *this;
+}
+
 istream& operator>>(istream& in, Polynomial& p) {
     int n;
     if (!(in >> n)) return in; // неудачное чтение
@@ -230,57 +268,6 @@ ostream& operator<<(ostream& out, const Polynomial& p) {
 
 Polynomial operator+(Polynomial a, const Polynomial& b) { a += b; return a; }
 Polynomial operator-(Polynomial a, const Polynomial& b) { a -= b; return a; }
-
-Polynomial operator*(const Polynomial& a, const Polynomial& b) {
-    Polynomial r = a;
-    r *= b;
-    return r;
-}
-Polynomial operator/(const Polynomial& a, const Polynomial& b) {
-    Polynomial res = a;
-    res /= b;
-    return res;
-}
-
-Polynomial operator%(const Polynomial& a, const Polynomial& b) {
-    // верну остаток a % b
-    int da = a.get_degree();
-    int db = b.get_degree();
-    // проверка на нулевой делитель
-    bool b_zero = true;
-    for (int i = 0; i <= db; ++i) {
-        if (b.coef[i] != 0) { b_zero = false; break; }
-    }
-    if (b_zero) throw std::domain_error("Polynomial: division by zero polynomial");
-    if (da < db) {
-        // остаток = a
-        return a;
-    }
-    ll* rem = new ll[da + 1];
-    for (int i = 0; i <= da; ++i) rem[i] = a.coef[i];
-    ll b_lead = b.coef[db];
-    for (int k = da; k >= db; --k) {
-        ll rcoef = rem[k];
-        ll factor = 0;
-        if (b_lead != 0) factor = rcoef / b_lead;
-        int qi = k - db;
-        if (factor != 0) {
-            for (int j = 0; j <= db; ++j) rem[qi + j] -= factor * b.coef[j];
-        }
-    }
-    // найду степень остатка (макс индекс < db с ненулевым)
-    int rdeg = 0;
-    for (int i = db - 1; i >= 0; --i) {
-        if (rem[i] != 0) { rdeg = i; break; }
-    }
-    Polynomial r(rdeg);
-    for (int i = 0; i <= rdeg; ++i) r.coef[i] = rem[i];
-
-    delete[] rem;
-    return r;
-}
-
-Polynomial& Polynomial::operator%=(const Polynomial& other) {
-    *this = (*this) % other;
-    return *this;
-} // Забыл
+Polynomial operator*(Polynomial a, const Polynomial& b) { a *= b; return a; }
+Polynomial operator/(Polynomial a, const Polynomial& b) { a /= b; return a; }
+Polynomial operator%(Polynomial a, const Polynomial& b) { a %= b; return a; }

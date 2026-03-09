@@ -30,9 +30,10 @@ public:
 
     friend istream& operator>>(istream& in, Polynomial& p);
     friend ostream& operator<<(ostream& out, const Polynomial& p);
+    
     friend Polynomial operator+(Polynomial a, const Polynomial& b);
     friend Polynomial operator-(Polynomial a, const Polynomial& b);
-    friend Polynomial operator/(const Polynomial& a, const Polynomial& b);
-    friend Polynomial operator*(const Polynomial& a, const Polynomial& b);
-    friend Polynomial operator%(const Polynomial& a, const Polynomial& b);
+    friend Polynomial operator/(Polynomial a, const Polynomial& b);
+    friend Polynomial operator*(Polynomial a, const Polynomial& b);
+    friend Polynomial operator%(Polynomial a, const Polynomial& b);
 };

@@ -78,8 +78,8 @@ matrix matrix::transpose() const {
     return T;
 }
 
-matrix matrix::operator*(const matrix& other) const {
-    if (m != other.n) throw invalid_argument("matrix::operator*: dimension mismatch");
+matrix& matrix::operator*=(const matrix& other) {
+    if (m != other.n) throw invalid_argument("matrix::operator*=: dimension mismatch");
     matrix R((int)n, (int)other.m);
     // простой тройной цикл -- можно оптимизировать
     for (ll i = 0; i < n; ++i) {
@@ -91,8 +91,22 @@ matrix matrix::operator*(const matrix& other) const {
             }
         }
     }
-    return R;
+    this->n = n; this->m = other.m;
+    for (ll i = 0; i < n; ++i)
+        for (ll k = 0; k < m; ++k)
+            data[i * m + k] = R.data[i * m + k];
+    return *this;
 }
+
+matrix& matrix::operator-=(const matrix& other) {
+    if (n != other.n || m != other.m) throw invalid_argument("matrix::operator*=: dimension mismatch");
+}
+
+matrix& matrix::operator+=(const matrix& other) {
+
+}
+
+matrix operator*(matrix a, const matrix &b) { a *= b; return a; }
 
 bool matrix::isIdentity(double eps) const { // Проверка на единичную матрицу
     if (n != m) return false;
