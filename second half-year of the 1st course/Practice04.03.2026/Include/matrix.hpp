@@ -60,6 +60,7 @@ class matrix {
 
         //methods
         double determinant(double eps = 1e-12) const;
+        pair<bool, matrix> solve(const matrix& b, double eps = 1e-12) const; // kramer
 
         // helpers
         void fill(double val = 0.0);

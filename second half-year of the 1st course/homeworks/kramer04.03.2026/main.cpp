@@ -1,12 +1,10 @@
 #include <iostream>
 #include "Include/matrix.hpp"
 
-using namespace std;
+#define f first
+#define s second
 
-struct pairbd {
-    bool ok;
-    double* sol;
-};
+using namespace std;
 
 void buildMatricesFromAugmented(int n, const double* augmented, matrix& A, matrix& B) {
     if (n < 0) throw invalid_argument("buildMatricesFromAugmented: n < 0");
@@ -20,30 +18,6 @@ void buildMatricesFromAugmented(int n, const double* augmented, matrix& A, matri
     }
 }
 
-pairbd solveCramer(const matrix& A, const matrix& B, double eps = 1e-12) {
-    pairbd res;
-    res.ok = false;
-    res.sol = nullptr;
-
-    int n = A.getRows();
-    if (n != A.getCols()) return res;
-    if (B.getRows() != n || B.getCols() != 1) return res;
-
-    double detA = A.determinant(eps);
-    if (fabs(detA) <= eps) return res;
-
-    double* sol = new double[n];
-    for (int col = 0; col < n; ++col) {
-        matrix C = A; // copy
-        for (int i = 0; i < n; ++i) C(i, col) = B(i, 0);
-        double detC = C.determinant(eps);
-        sol[col] = detC / detA;
-    }
-    res.ok = true;
-    res.sol = sol;
-    return res;
-}
-
 int main() {
     int n;
     cin >> n;
@@ -53,16 +27,16 @@ int main() {
     matrix A, B;
     buildMatricesFromAugmented(n, augmented, A, B);
 
-    pairbd r = solveCramer(A, B);
-    if (!r.ok) {
+    pair<bool, matrix> r = A.solve(B);
+    if (!r.f) {
         cout << "No unique solution\n";
     } else {
         for (int i = 0; i < n; ++i) {
             if (i) cout << ' ';
-            cout << r.sol[i];
+            cout << r.s(i, 0);
         }
         cout << '\n';
-        delete[] r.sol;
+        r.s = matrix(); // Очищаю матрицу заменяя на нулевую
     }
 
     delete[] augmented;

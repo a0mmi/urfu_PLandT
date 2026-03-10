@@ -236,6 +236,33 @@ double matrix::determinant(double eps) const {
     return det;
 }
 
+pair<bool, matrix> matrix::solve(const matrix& b, double eps) const { // A * X = b (методом Крамера)
+    if (n != m) throw invalid_argument("solve: matrix must be square");
+    if (getRows() != b.getRows()) throw invalid_argument("solve: dimension mismatch");
+    int N = getRows();
+    int rhs = b.getCols();
+
+    if (N == 0) return {true, matrix(0, rhs)};
+
+    double detA = this->determinant(eps);
+    if (fabs(detA) <= eps) {
+        return {false, matrix()};
+    }
+
+    matrix X(N, rhs);
+    for (int col = 0; col < rhs; ++col) {
+        for (int j = 0; j < N; ++j) {
+            matrix Aj = *this;
+            for (int i = 0; i < N; ++i) {
+                Aj.data[i * N + j] = b(i, col);
+            }
+            double detAj = Aj.determinant(eps);
+            X.data[j * X.m + col] = detAj / detA; // X(j, col) = detAj / detA
+        }
+    }
+    return {true, X};
+}
+
 void matrix::fill(double val) {
     if (!data) return;
     for (ll i = 0, S = n * m; i < S; ++i) data[i] = val;
