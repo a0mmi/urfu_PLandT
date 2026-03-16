@@ -11,7 +11,7 @@ int main() {
         in >> s; // может бросить std::invalid_argument
         in.close();
 
-        s += schedule(train(666, "hell", 666));
+        s += schedule(train(666, "hell", 666)) + schedule(train(67, "Питер", 676));
         std::ofstream out("out.txt");
         if (!out) throw std::runtime_error(std::string("Cannot open output file: out.txt"));
         out << s;
