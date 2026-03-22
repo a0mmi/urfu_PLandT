@@ -11,7 +11,7 @@ train::train() {
 }
 
 train::train(int number_, const string& city_, int time_) {
-    if (time_ < 0 || time_ > 1440) throw invalid_argument("Time out of range 0..1440: " + to_string(time_));
+    if (time_ < 0 || time_ > 24 * 60) throw invalid_argument("Time out of range 0..1440: " + to_string(time_));
     number = number_;
     time = time_;
     city = city_;

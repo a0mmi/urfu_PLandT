@@ -1,0 +1,80 @@
+================================
+in.txt:
+4
+0 0
+1 0
+1 1
+0 1
+3
+0 0
+1 0
+0 1
+out.txt:
+4
+0 0
+1 0
+1 1
+0 1
+Perimeter: 4
+Area: 1
+Longest diagonal: 1.41421
+
+3
+0 0
+1 0
+0 1
+Perimeter: 3.41421
+Area: 0.5
+Longest diagonal: 0
+================================
+in.txt:
+5
+0 0
+2 0
+2 2
+1 1
+0 2
+4
+0 0
+2 0
+2 2
+0 2
+out.txt:
+4
+0 0
+2 0
+2 2
+0 2
+Perimeter: 8
+Area: 4
+Longest diagonal: 2.82843
+================================
+in.txt:
+4
+0 0
+3 0
+3 3
+0 3
+4
+0 0
+1 0
+1 5
+0 5
+out.txt:
+4
+0 0
+1 0
+1 5
+0 5
+Perimeter: 12
+Area: 5
+Longest diagonal: 5.09902
+
+4
+0 0
+3 0
+3 3
+0 3
+Perimeter: 12
+Area: 9
+Longest diagonal: 4.24264
