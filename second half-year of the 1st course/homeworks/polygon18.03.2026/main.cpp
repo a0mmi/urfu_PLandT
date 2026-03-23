@@ -18,7 +18,6 @@ void merge(Polygon* arr, int l, int m, int r) {
     for (int i = 0; i < n2; ++i) R[i] = arr[m + 1 + i];
 
     int i = 0, j = 0, k = l;
-
     while (i < n1 && j < n2) {
         if (f(L[i], R[j])) {
             arr[k++] = L[i++];
@@ -36,9 +35,7 @@ void merge(Polygon* arr, int l, int m, int r) {
 
 void mergeSort(Polygon* arr, int l, int r) {
     if (l >= r) return;
-
     int m = (l + r) / 2;
-
     mergeSort(arr, l, m);
     mergeSort(arr, m + 1, r);
 
@@ -54,16 +51,12 @@ int main() {
 
     Polygon poly;
     while (fin >> poly) {
-
         if (poly.isConvex()) {
             Polygon* tmp = new Polygon[cnt + 1];
-
             for (int i = 0; i < cnt; ++i) {
                 tmp[i] = res[i];
             }
-
             tmp[cnt] = poly;
-
             delete[] res;
             res = tmp;
             cnt++;
@@ -71,11 +64,10 @@ int main() {
     }
 
     if (cnt > 0) mergeSort(res, 0, cnt - 1);
-
     for (int i = 0; i < cnt; ++i) {
         fout << res[i] << "\n";
     }
-
+    
     delete[] res;
     return 0;
 }

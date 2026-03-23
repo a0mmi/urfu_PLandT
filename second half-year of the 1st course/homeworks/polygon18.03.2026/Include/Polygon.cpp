@@ -24,9 +24,7 @@ Polygon::Polygon(const Polygon& other) {
 
 Polygon& Polygon::operator=(const Polygon& other) {
     if (this == &other) return *this;
-
     delete[] p;
-
     n = other.n;
     p = new PointV[n];
     for (int i = 0; i < n; ++i) {
@@ -56,14 +54,10 @@ int Polygon::size() const {
 
 bool Polygon::isConvex(const double EPS) const {
     if (n < 3) return false;
-
     int sign = 0;
-
     for (int i = 0; i < n; ++i) {
         double cr = cross(p[i], p[(i + 1) % n], p[(i + 2) % n]);
-
         if (fabs(cr) < EPS) return false;
-
         int cur = (cr > 0) ? 1 : -1;
         if (sign == 0) sign = cur;
         else if (sign != cur) return false;
@@ -74,56 +68,44 @@ bool Polygon::isConvex(const double EPS) const {
 
 double Polygon::perimeter() const {
     double per = 0;
-
     for (int i = 0; i < n; ++i) {
         per += dist(p[i], p[(i + 1) % n]);
     }
-
     return per;
 }
 
 double Polygon::area() const {
     double s = 0;
-
     for (int i = 0; i < n; ++i) {
         s += p[i].cross(p[(i + 1) % n]);
     }
-
     return fabs(s) / 2.0;
 }
 
 double Polygon::longestDiagonal() const {
     if (n < 4) return 0;
-
     double mx = 0;
-
     for (int i = 0; i < n; ++i) {
         for (int j = i + 1; j < n; ++j) {
             if (j == i + 1) continue;
             if (i == 0 && j == n - 1) continue;
-
             double d = dist(p[i], p[j]);
             if (d > mx) mx = d;
         }
     }
-
     return mx;
 }
 
 istream& operator>>(istream& in, Polygon& poly) {
     int sz;
     if (!(in >> sz)) return in;
-
     PointV* tmp = new PointV[sz];
-
     for (int i = 0; i < sz; ++i) {
         in >> tmp[i];
     }
-
     delete[] poly.p;
     poly.p = tmp;
     poly.n = sz;
-
     return in;
 }
 
@@ -132,10 +114,8 @@ ostream& operator<<(ostream& out, const Polygon& poly) {
     for (int i = 0; i < poly.n; ++i) {
         out << poly.p[i] << "\n";
     }
-
     out << "Perimeter: " << poly.perimeter() << "\n";
     out << "Area: " << poly.area() << "\n";
     out << "Longest diagonal: " << poly.longestDiagonal() << "\n";
-
     return out;
 }
