@@ -16,3 +16,12 @@ Perimeter: 12
 Area: 9
 Longest diagonal: 4.24264
 
+4
+0 0
+2 0
+2 2
+0 2
+Perimeter: 8
+Area: 4
+Longest diagonal: 2.82843
+
