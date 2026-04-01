@@ -1,0 +1,8 @@
+function
+variable
+loop
+condition
+pointer
+reference
+class
+object
