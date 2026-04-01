@@ -1,8 +1,9 @@
+object 29
 class 28
-object 28
-variable 28
 function 27
 reference 27
+variable 26
 condition 23
 pointer 22
 loop 16
+ajskfmk 0

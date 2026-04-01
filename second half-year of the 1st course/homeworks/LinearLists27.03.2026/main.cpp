@@ -24,7 +24,7 @@ int main() {
     int printed = 0;
     for (int i = 0; i < list.getSize(); i++) {
         int cnt = list.getCount(i);
-        if (cnt > 0) {
+        if (cnt >= 0) {
             out << list.getWord(i) << " " << cnt << endl;
             printed++;
         }
