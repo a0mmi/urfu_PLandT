@@ -1,0 +1,15 @@
+Hello!!! This is a BIG test... Are you ready? Let's start.
+
+In 2024, people wrote code: lots of code; some good, some bad.
+But programmers don't stop!!! They try again (and again) until it works.
+
+Sometimes errors appear: segmentation-faults, null-pointers, or even worse!!!
+Why??? Nobody knows... Or maybe they do?
+
+"I'm testing this parser," said Alex. "It's working well, isn't it?"
+Yes, it's working! Or is it???
+
+Random symbols: ### $$$ !!! ??? --- +++ ===
+And numbers: 123 456 7890.
+
+Final sentence (hopefully it works fine).
