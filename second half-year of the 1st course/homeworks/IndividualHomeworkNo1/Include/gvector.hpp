@@ -8,9 +8,12 @@ private:
 
 public:
     gvector();
-    gvector(int size);
+    explicit gvector(int size);
     gvector(const gvector& other);
-    gvector& operator=(const gvector& other);
+    gvector(gvector&& other);
+
+    gvector& operator=(gvector other);
+
     ~gvector();
 
     void Init(int size);

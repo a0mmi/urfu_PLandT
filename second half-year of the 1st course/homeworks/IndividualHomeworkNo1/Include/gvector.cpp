@@ -1,4 +1,5 @@
 #include "gvector.hpp"
+
 using namespace std;
 
 gvector::gvector() {
@@ -17,12 +18,15 @@ gvector::gvector(const gvector& other) {
     for (int i = 0; i < n; i++) v[i] = other.v[i];
 }
 
-gvector& gvector::operator=(const gvector& other) {
-    if (this == &other) return *this;
-    delete[] v;
+gvector::gvector(gvector&& other) {
+    v = other.v;
     n = other.n;
-    v = new float[n];
-    for (int i = 0; i < n; i++) v[i] = other.v[i];
+    other.v = nullptr;
+    other.n = 0;
+}
+
+gvector& gvector::operator=(gvector other) {
+    swap(*this, other);
     return *this;
 }
 
@@ -64,11 +68,13 @@ const float& gvector::operator[](int i) const {
 }
 
 gvector& gvector::operator+=(const gvector& other) {
+    if (n != other.n) throw invalid_argument("gvector +=: sizes do not match");
     for (int i = 0; i < n; i++) v[i] += other.v[i];
     return *this;
 }
 
 gvector& gvector::operator-=(const gvector& other) {
+    if (n != other.n) throw invalid_argument("gvector -=: sizes do not match");
     for (int i = 0; i < n; i++) v[i] -= other.v[i];
     return *this;
 }
