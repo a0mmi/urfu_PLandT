@@ -31,7 +31,7 @@ matrix::matrix(const matrix& other) {
     for (int i = 0; i < rows; i++) m[i] = other.m[i];
 }
 
-matrix::matrix(matrix&& other) noexcept {
+matrix::matrix(matrix&& other) {
     m = other.m;
     rows = other.rows;
     cols = other.cols;
