@@ -28,10 +28,10 @@ Text parseFile(const string& filename) {
 
     char ch;
     while (fin.get(ch)) {
-        unsigned char c = static_cast<unsigned char>(ch);
+        unsigned char c = ch;
 
         if (isWordChar(c)) {
-            currentWord += static_cast<char>(tolower(c));
+            currentWord += tolower(c);
         } else {
             if (!currentWord.empty()) {
                 currentSentence->addWord(currentWord);
