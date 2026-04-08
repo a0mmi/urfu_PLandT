@@ -1,5 +1,5 @@
 #include <fstream>
-#include <cctype>
+// #include <cctype>
 #include <locale>
 #include <string>
 #include "Include\Text.hpp"
@@ -31,7 +31,7 @@ Text parseFile(const string& filename) {
         unsigned char c = ch;
 
         if (isWordChar(c)) {
-            currentWord += tolower(c);
+            currentWord += ('A' < c && c < 'Z') ? c - ('A' - 'a'): c;
         } else {
             if (!currentWord.empty()) {
                 currentSentence->addWord(currentWord);
