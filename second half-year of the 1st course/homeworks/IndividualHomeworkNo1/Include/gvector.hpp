@@ -8,7 +8,7 @@ private:
 
 public:
     gvector();
-    explicit gvector(int size);
+    gvector(int size);
     gvector(const gvector& other);
     gvector(gvector&& other);
 

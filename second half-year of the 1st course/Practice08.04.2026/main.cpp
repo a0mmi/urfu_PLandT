@@ -8,8 +8,9 @@ struct Term {
     double coeff;
     Term* next;
 
-    Term(int d, double c, Term* n = nullptr)
-        : degree(d), coeff(c), next(n) {}
+    Term(int d, double c, Term* n = nullptr) {
+        degree = d; coeff = c; next = n;
+    }
 };
 
 Term* insertTerm(Term* head, int deg, double coef) {
@@ -116,8 +117,9 @@ struct MatrixElement {
     double value;
     MatrixElement* next;
 
-    MatrixElement(int r, int c, double v, MatrixElement* n = nullptr)
-        : row(r), col(c), value(v), next(n) {}
+    MatrixElement(int r, int c, double v, MatrixElement* n = nullptr) {
+        row = r; col = c; value = v; next = n;
+    }
 };
 
 MatrixElement* insertElement(MatrixElement* head, int r, int c, double v) {
