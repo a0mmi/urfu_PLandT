@@ -1,8 +1,12 @@
 #include "table.hpp"
 
-CountNode::CountNode(const string& w) : word(w), cnt(1), next(nullptr) {}
+CountNode::CountNode(const string& w) {
+    word = w; cnt = 1; next = nullptr;
+}
 
-WordCounter::WordCounter() : head(nullptr) {}
+WordCounter::WordCounter() {
+    head = nullptr;
+}
 
 WordCounter::~WordCounter() {
     clear();
@@ -49,9 +53,13 @@ void WordCounter::clear() {
     head = nullptr;
 }
 
-Entry::Entry(const string& k) : key(k), next(nullptr), used(false) {}
+Entry::Entry(const string& k) {
+    key = k; next = nullptr; used = false;
+}
 
-table::table() : head(nullptr) {}
+table::table() {
+    head = nullptr;
+}
 
 table::~table() {
     clear();
