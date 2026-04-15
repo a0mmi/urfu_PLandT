@@ -5,8 +5,8 @@ void NgramModel::splitToWords(const string& text, LinkedList& wordsList) {
 
     string cleaned;
     for (char c : text) {
-        unsigned char uc = static_cast<unsigned char>(c);
-        if (isalpha(uc)) cleaned += static_cast<char>(tolower(uc));
+        unsigned char uc = (unsigned char)c;
+        if (isalpha(uc)) cleaned += (char)tolower(uc); // символ = буква --> в нижнем регистре добавляю
         else if (isspace(uc)) cleaned += ' ';
     }
 

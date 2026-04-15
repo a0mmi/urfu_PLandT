@@ -18,7 +18,8 @@ private:
 public:
     LinkedList();
     ~LinkedList();
-    void push_back(const string& value);
+    void push_back(const string& value); // чтобы изменяя строку изменялся и `элемент`
+    
     void clear();
     Node* getHead();
     bool empty();
