@@ -1,34 +1,21 @@
 #pragma once
 
 #include <bits/stdc++.h>
+
 using namespace std;
 
-struct CountNode {
+struct BestContinuation {
     string word;
-    int cnt;
-    CountNode* next;
+    int count;
 
-    CountNode(const string& w);
-};
-
-class WordCounter {
-private:
-    CountNode* head;
-
-public:
-    WordCounter();
-    ~WordCounter();
-
-    void add(const string& word);
-    pair<string, int> best() const;
-    void clear();
+    BestContinuation();
+    BestContinuation(const string& w, int c);
 };
 
 struct Entry {
     string key;
-    WordCounter counts;
+    BestContinuation best;
     Entry* next;
-    bool used;
 
     Entry(const string& k);
 };

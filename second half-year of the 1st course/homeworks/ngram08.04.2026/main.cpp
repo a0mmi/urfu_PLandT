@@ -1,23 +1,62 @@
 #include <bits/stdc++.h>
-#include "Include/LinkedList.hpp"
+#include "Include/Text.hpp"
 #include "Include/NgramModel.hpp"
 
 using namespace std;
 
-int main() {
-    int N;
-    cin >> N;
-    cin.ignore();
+static bool isWordChar(unsigned char c) {
+    return isalpha(c) || c == '\'';
+}
 
-    LinkedList sentenceList;
-    for (int i = 0; i < N; ++i) {
-        string line;
-        getline(cin, line);
-        sentenceList.push_back(line);
+static bool isSentenceSeparator(unsigned char c) {
+    return c == '.' || c == '!' || c == '?' || c == ';' || c == ':' || c == '(' || c == ')';
+}
+
+Text parseFile(const string& filename) {
+    ifstream fin(filename, ios::binary);
+    Text text;
+
+    if (!fin) {
+        cerr << "Nema: " << filename << '\n';
+        return text;
     }
 
+    Sentence* currentSentence = new Sentence();
+    string currentWord;
+
+    char ch;
+    while (fin.get(ch)) {
+        unsigned char c = ch;
+
+        if (isWordChar(c)) {
+            currentWord += ('A' < c && c < 'Z') ? c - ('A' - 'a'): c;
+        } else {
+            if (!currentWord.empty()) {
+                currentSentence->addWord(currentWord);
+                currentWord.clear();
+            }
+
+            if (isSentenceSeparator(c)) {
+                text.addSentence(currentSentence);
+                currentSentence = new Sentence();
+            }
+        }
+    }
+
+    if (!currentWord.empty()) {
+        currentSentence->addWord(currentWord);
+    }
+
+    text.addSentence(currentSentence);
+
+    return text;
+}
+
+int main() {
+    Text text = parseFile("input.txt");
+
     NgramModel model;
-    model.build(sentenceList);
+    model.build(text);
     model.printResults();
 
     return 0;

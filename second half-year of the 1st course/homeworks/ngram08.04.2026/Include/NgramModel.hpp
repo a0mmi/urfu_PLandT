@@ -3,19 +3,18 @@
 #include <bits/stdc++.h>
 #include "LinkedList.hpp"
 #include "table.hpp"
+#include "Text.hpp"
 
 using namespace std;
 
 class NgramModel {
 private:
-    table bigramCounts; // а можно map<string, map<string, int>>?
+    table bigramCounts;
     table trigramCounts;
-
-    void splitToWords(const string& text, LinkedList& wordsList);
 
 public:
     NgramModel();
-    void build(LinkedList& sentences);
+    void build(const Text& text);
     void printBigrams();
     void printTrigrams();
     void printResults();

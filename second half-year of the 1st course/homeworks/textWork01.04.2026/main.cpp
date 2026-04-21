@@ -1,5 +1,4 @@
 #include <fstream>
-// #include <cctype>
 #include <locale>
 #include <string>
 #include "Include\Text.hpp"

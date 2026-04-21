@@ -1,60 +1,20 @@
 #include "table.hpp"
 
-CountNode::CountNode(const string& w) {
-    word = w; cnt = 1; next = nullptr;
+BestContinuation::BestContinuation() {
+    word = "";
+    count = 0;
 }
 
-WordCounter::WordCounter() {
-    head = nullptr;
-}
-
-WordCounter::~WordCounter() {
-    clear();
-}
-
-void WordCounter::add(const string& word) {
-    CountNode* cur = head;
-    while (cur != nullptr) {
-        if (cur->word == word) {
-            cur->cnt++;
-            return;
-        }
-        cur = cur->next;
-    }
-
-    CountNode* nn = new CountNode(word);
-    nn->next = head;
-    head = nn;
-}
-
-pair<string, int> WordCounter::best() const {
-    string ans = "";
-    int mx = -1;
-
-    const CountNode* cur = head;
-    while (cur != nullptr) {
-        if (cur->cnt > mx || (cur->cnt == mx && (ans.empty() || cur->word < ans))) {
-            mx = cur->cnt;
-            ans = cur->word;
-        }
-        cur = cur->next;
-    }
-
-    return pair<string, int>(ans, mx);
-}
-
-void WordCounter::clear() {
-    CountNode* cur = head;
-    while (cur != nullptr) {
-        CountNode* nxt = cur->next;
-        delete cur;
-        cur = nxt;
-    }
-    head = nullptr;
+BestContinuation::BestContinuation(const string& w, int c) {
+    word = w;
+    count = c;
 }
 
 Entry::Entry(const string& k) {
-    key = k; next = nullptr; used = false;
+    key = k;
+    best.word = "";
+    best.count = 0;
+    next = nullptr;
 }
 
 table::table() {
@@ -69,39 +29,30 @@ void table::add(const string& key, const string& nextWord) {
     Entry* cur = head;
     while (cur != nullptr) {
         if (cur->key == key) {
-            cur->counts.add(nextWord);
+            if (nextWord == cur->best.word) {
+                cur->best.count++;
+            } else if (cur->best.count <= 1 && (cur->best.word.empty() || nextWord < cur->best.word)) {
+                cur->best.word = nextWord;
+                cur->best.count = 1;
+            }
             return;
         }
         cur = cur->next;
     }
 
     Entry* nn = new Entry(key);
-    nn->counts.add(nextWord);
+    nn->best.word = nextWord;
+    nn->best.count = 1;
     nn->next = head;
     head = nn;
 }
 
 void table::print() {
-    while (true) {
-        Entry* best = nullptr;
-
-        for (Entry* cur = head; cur != nullptr; cur = cur->next) {
-            if (cur->used) continue;
-            if (best == nullptr || cur->key < best->key) {
-                best = cur;
-            }
-        }
-
-        if (best == nullptr) break;
-
-        best->used = true;
-        pair<string, int> res = best->counts.best();
-        cout << best->key << " -> " << res.first
-             << " (frequency: " << res.second << ")\n";
-    }
-
-    for (Entry* cur = head; cur != nullptr; cur = cur->next) {
-        cur->used = false;
+    Entry* cur = head;
+    while (cur != nullptr) {
+        cout << cur->key << " -> " << cur->best.word
+             << " (frequency: " << cur->best.count << ")\n";
+        cur = cur->next;
     }
 }
 
