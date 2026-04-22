@@ -31,7 +31,8 @@ void table::add(const string& key, const string& nextWord) {
         if (cur->key == key) {
             if (nextWord == cur->best.word) {
                 cur->best.count++;
-            } else if (cur->best.count <= 1 && (cur->best.word.empty() || nextWord < cur->best.word)) {
+            }
+            else if (cur->best.count <= 1 && (cur->best.word.empty() || nextWord < cur->best.word)) {
                 cur->best.word = nextWord;
                 cur->best.count = 1;
             }
@@ -45,6 +46,29 @@ void table::add(const string& key, const string& nextWord) {
     nn->best.count = 1;
     nn->next = head;
     head = nn;
+}
+
+void table::close() {
+    if (head == nullptr || head->next == nullptr) return;
+
+    Entry* bestNode = head;
+    for (Entry* cur = head->next; cur != nullptr; cur = cur->next) {
+        if (cur->best.count > bestNode->best.count) {
+            bestNode = cur;
+        }
+    }
+
+    Entry* cur = head;
+    while (cur != nullptr) {
+        Entry* nxt = cur->next;
+        if (cur != bestNode) {
+            delete cur;
+        }
+        cur = nxt;
+    }
+
+    head = bestNode;
+    head->next = nullptr;
 }
 
 void table::print() {

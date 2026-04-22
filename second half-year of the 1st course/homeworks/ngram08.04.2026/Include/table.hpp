@@ -1,7 +1,6 @@
 #pragma once
 
 #include <bits/stdc++.h>
-
 using namespace std;
 
 struct BestContinuation {
@@ -29,6 +28,7 @@ public:
     ~table();
 
     void add(const string& key, const string& nextWord);
+    void close();     // оставить только самый частотный узел
     void print();
     void clear();
 };
