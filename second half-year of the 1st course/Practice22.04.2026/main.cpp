@@ -8,18 +8,6 @@ bool isAnagram(const string& s, const string& t) {
         return false;
     }
 
-    HashTable freq;
-    // Частоты
-    for (char c : s) {
-        freq.insert(c);
-    }
-
-    for (char c : t) {
-        if (freq.getCount(c) == 0) {
-            return false;
-        }
-    }
-
     HashTable freqS;
     HashTable freqT;
 
@@ -38,12 +26,11 @@ bool isAnagram(const string& s, const string& t) {
 
 int main() {
     string s, t;
-
     cin >> s;
-
     cin >> t;
 
     if (isAnagram(s, t)) cout << 1 << endl;
     else cout << 0 << endl;
+    
     return 0;
 }

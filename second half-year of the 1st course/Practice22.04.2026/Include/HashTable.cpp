@@ -1,5 +1,6 @@
 #include "HashTable.hpp"
-#include <cctype>
+
+using namespace std;
 
 HashTable::Node::Node(char k, int c) {
     key = k; count = c; next = nullptr;
@@ -20,7 +21,7 @@ int HashTable::hash(char c) const {
 }
 
 void HashTable::insert(char c) {
-    char lower = std::tolower((unsigned char)c);
+    char lower = tolower((unsigned char)c);
     int h = hash(lower);
 
     Node* cur = table[h];
