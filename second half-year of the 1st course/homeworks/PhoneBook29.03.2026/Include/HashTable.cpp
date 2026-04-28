@@ -31,7 +31,7 @@ void HashTable::rehash(int newBucketCount) {
     bucketCount = newBucketCount;
 }
 
-size_t HashTable::defhash(const string& key) {
+size_t HashTable::defhash(const string& key) { // Дефолтный хэш приводит всё к нижнему регистру
     size_t h = 0;
     const size_t p = 131;
     for (unsigned char c : key) {
@@ -141,7 +141,7 @@ void HashTable::setLoadFactor(double factor) {
     maxLoadFactor = factor;
 }
 
-bool HashTable::add(const string& key, const string& value) {
+bool HashTable::add(const string& key, const string& value) { // Если ключ один и тот же -- перезаписывает значение
     if (!validKey(key) || !validValue(value)) {
         return false;
     }
