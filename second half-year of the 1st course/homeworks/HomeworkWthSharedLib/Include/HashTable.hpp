@@ -33,7 +33,7 @@ public:
     HashTable(int size, size_t (*hash_)(const string& x),
             bool (*validKey_)(const string& x), bool (*validValue_)(const string& x));
     ~HashTable();
-    
+
     void clear();
 
     double loadFactor() const;

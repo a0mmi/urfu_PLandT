@@ -38,7 +38,7 @@ size_t HashTable::defhash(const string& key) { // Дефолтный хэш пр
         if ('A' <= c && c <= 'Z') {
             c = c - 'A' + 'a';
         }
-        h = h * p + c;
+        h = (h * p + c);
     }
     return h;
 }
@@ -142,9 +142,13 @@ void HashTable::setLoadFactor(double factor) {
 }
 
 bool HashTable::add(const string& key, const string& value) { // Если ключ один и тот же -- перезаписывает значение
+    if (loadFactor() > maxLoadFactor) {
+        rehash(bucketCount * 2);
+    }
     if (!validKey(key) || !validValue(value)) {
         return false;
     }
+    
     size_t index = hash(key) % bucketCount;
     Node* curr = buckets[index];
 
@@ -159,10 +163,6 @@ bool HashTable::add(const string& key, const string& value) { // Если клю
     buckets[index] = newNode;
     countElements++;
 
-    if (loadFactor() > maxLoadFactor) {
-        rehash(bucketCount * 2);
-    }
-    
     return true;
 }
 
