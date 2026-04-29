@@ -1,12 +1,12 @@
-#include "Include/HashTable.hpp"
+#include "allrc++.hpp"
 #include <bits/stdc++.h>
 
 using namespace std;
 
-static string trim(const string& s) {
+string trim(const string& s) {
     size_t l = 0, r = s.size();
-    while (l < r && isspace(static_cast<unsigned char>(s[l]))) ++l;
-    while (r > l && isspace(static_cast<unsigned char>(s[r - 1]))) --r;
+    while (l < r && isspace((unsigned char)s[l])) ++l;
+    while (r > l && isspace((unsigned char)s[r - 1])) --r;
     return s.substr(l, r - l);
 }
 
@@ -27,7 +27,7 @@ bool isPhone(const string& s) {
     if (s[1] != '7') return false;
 
     for (int i = 2; i < 12; ++i) {
-        if (!isdigit(static_cast<unsigned char>(s[i]))) {
+        if (!isdigit((unsigned char)s[i])) {
             return false;
         }
     }

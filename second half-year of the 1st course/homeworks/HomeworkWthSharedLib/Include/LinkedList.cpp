@@ -129,7 +129,7 @@ void LinkedList::clear() {
 }
 
 bool LinkedList::empty() const {
-    return size == 0;
+    return nsize == 0;
 }
 
 size_t LinkedList::size() const {
