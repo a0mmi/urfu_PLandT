@@ -48,7 +48,7 @@ bool HashTable::defvalidKey(const string& key) {
 
     for (unsigned char c : key) {
         if (!((c >= 'A' && c <= 'Z') ||
-              (c >= 'a' && c <= 'z'))) {
+            (c >= 'a' && c <= 'z'))) {
             return false;
         }
     }
@@ -225,10 +225,10 @@ void HashTable::show() {
         Node* curr = buckets[i];
         while (curr != nullptr) {
             cout << "("
-                 << curr->key
-                 << " : "
-                 << curr->value
-                 << ") -> ";
+                << curr->key
+                << " : "
+                << curr->value
+                << ") -> ";
             curr = curr->next;
         }
         cout << "nullptr\n";
