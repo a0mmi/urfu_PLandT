@@ -9,14 +9,19 @@ int main() {
         return 1;
     }
 
-    int n, m;
-    in >> n >> m;
-    
+    string line;
+    getline(in, line);
+    int n = stoi(line);
+
     Graph g(n);
-    for (int i = 0; i < m; i++) {
-        int from, to;
-        in >> from >> to;
-        g.addEdge(from, to);
+    for (int i = 0; i < n; i++) {
+        string line;
+        getline(in, line);
+        stringstream ss(line);
+        int neighbor;
+        while (ss >> neighbor) {
+            g.addEdge(i, neighbor);
+        }
     }
     
     in.close();

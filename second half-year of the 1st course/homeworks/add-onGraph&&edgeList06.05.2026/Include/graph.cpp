@@ -145,9 +145,12 @@ EdgeList* Graph::getEdgeList() {
     EdgeList* edges = new EdgeList();
 
     for (int i = 0; i < vertexCount; i++) {
-        for (IntNode* p = adjList[i].getHead(); p != nullptr; p = p->next) {
+        IntNode* p = adjList[i].getHead();
+        while(p != nullptr) {
             edges->add(i, p->val);
+            p = p->next;
         }
+
     }
     return edges;
 }
