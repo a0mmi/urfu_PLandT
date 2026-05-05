@@ -1,73 +1,172 @@
-#include "graph.hpp"
+#include "Graph.hpp"
 #include <bits/stdc++.h>
 
 using namespace std;
 
-graph::graph(int hashSize) {
-    table.init(hashSize);
+IntNode::IntNode(int v) {
+    this->val = v;
+    this->next = nullptr;
 }
 
-graph::~graph() {
+IntList::IntList() {
+    head = nullptr;
+    tail = nullptr;
 }
 
-long long graph::encodeEdge(int u, int v) {
-    if (u > v) swap(u, v);
-    return (((long long)u) << 32) | (unsigned int)v;
+IntList::~IntList() {
+    clear();
 }
 
-void graph::buildEdgeList(int n, int* degree, int** adj) {
-    table.clear();
+bool IntList::empty() {
+    return head == nullptr;
+}
 
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < degree[i]; j++) {
-            int u = i;
-            int v = adj[i][j];
+void IntList::add(int val) {
+    IntNode* node = new IntNode(val);
 
-            if (u > v) swap(u, v);
-
-            long long key = encodeEdge(u, v);
-            if (!table.find(key)) {
-                table.add(key, 1);
-            }
-        }
+    if (!head) {
+        head = tail = node;
+    } else {
+        tail->next = node;
+        tail = node;
     }
 }
 
-void graph::showEdgeList() {
-    int m = 0;
-    Node* curr = table.first();
-
-    while (curr != nullptr) {
-        m++;
-        curr = curr->nextAll;
+void IntList::clear() {
+    while (head) {
+        IntNode* tmp = head;
+        head = head->next;
+        delete tmp;
     }
+    tail = nullptr;
+}
 
-    cout << m << '\n';
+IntNode* IntList::getHead() {
+    return head;
+}
 
-    curr = table.first();
-    while (curr != nullptr) {
-        int u = (int)(curr->key >> 32);
-        int v = (int)(curr->key & 0xffffffff);
-        cout << u << " " << v << '\n';
-        curr = curr->nextAll;
+void IntList::print(std::ostream& out) {
+    for (IntNode* p = head; p != nullptr; p = p->next) {
+        out << p->val;
+        if (p->next) out << " -> ";
+    }
+    out << " -> nullptr";
+}
+
+EdgeNode::EdgeNode(int f, int t) {
+    this->from = f;
+    this->to = t;
+    this->next = nullptr;
+}
+
+EdgeList::EdgeList() {
+    head = nullptr;
+    tail = nullptr;
+}
+
+EdgeList::~EdgeList() {
+    clear();
+}
+
+bool EdgeList::empty() {
+    return head == nullptr;
+}
+
+void EdgeList::add(int from, int to) {
+    EdgeNode* node = new EdgeNode(from, to);
+
+    if (!head) {
+        head = tail = node;
+    } else {
+        tail->next = node;
+        tail = node;
     }
 }
 
-int graph::countIsolatedVertices(int n, int** matrix) {
-    int ans = 0;
+void EdgeList::clear() {
+    while (head) {
+        EdgeNode* tmp = head;
+        head = head->next;
+        delete tmp;
+    }
+    tail = nullptr;
+}
 
-    for (int i = 0; i < n; i++) {
-        bool isolated = true;
+EdgeNode* EdgeList::getHead() {
+    return head;
+}
 
-        for (int j = 0; j < n; j++) {
+void EdgeList::print(std::ostream& out) {
+    int idx = 1;
+    for (EdgeNode* p = head; p != nullptr; p = p->next, ++idx) {
+        out << "Edge " << idx << ": ("
+            << p->from << " -> " << p->to << ")\n";
+    }
+}
+
+Graph::Graph(int n) {
+    vertexCount = n;
+    adjList = new IntList[n];
+}
+
+Graph::~Graph() {
+    delete[] adjList;
+}
+
+int Graph::getVertexCount() {
+    return vertexCount;
+}
+
+void Graph::addEdge(int from, int to) {
+    if (from < 0 || from >= vertexCount) return;
+    if (to   < 0 || to   >= vertexCount) return;
+
+    adjList[from].add(to);
+}
+
+void Graph::loadFromMatrix(int** matrix, int n) {
+    // Сбрасываем текущее состояние
+    for (int i = 0; i < vertexCount; i++) {
+        adjList[i].clear();
+    }
+
+    int limit = (n < vertexCount) ? n : vertexCount;
+
+    for (int i = 0; i < limit; i++) {
+        for (int j = 0; j < limit; j++) {
             if (matrix[i][j] != 0) {
-                isolated = false;
-                break;
+                adjList[i].add(j);
             }
         }
-
-        if (isolated) ans++;
     }
+}
 
-    return ans;
+EdgeList* Graph::getEdgeList() {
+    EdgeList* edges = new EdgeList();
+
+    for (int i = 0; i < vertexCount; i++) {
+        for (IntNode* p = adjList[i].getHead(); p != nullptr; p = p->next) {
+            edges->add(i, p->val);
+        }
+    }
+    return edges;
+}
+
+int Graph::countIsolated() {
+    int count = 0;
+
+    for (int i = 0; i < vertexCount; i++) {
+        if (adjList[i].empty()) {
+            count++;
+        }
+    }
+    return count;
+}
+
+void Graph::print(std::ostream& out) {
+    for (int i = 0; i < vertexCount; i++) {
+        out << "vertex " << i << " --> ";
+        adjList[i].print(out);
+        out << '\n';
+    }
 }

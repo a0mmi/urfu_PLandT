@@ -1,21 +1,71 @@
 #pragma once
 
-#include "HashTable.hpp"
-#include <bits/stdc++.h>
-using namespace std;
+#include <iostream>
 
-class graph {
+struct IntNode {
+    int val;
+    IntNode* next;
+
+    IntNode(int v);
+};
+
+class IntList {
 private:
-    HashTable table;
-
-    long long encodeEdge(int u, int v);
+    IntNode* head;
+    IntNode* tail;
 
 public:
-    graph(int hashSize = 1024);
-    ~graph();
+    IntList();
+    ~IntList();
 
-    void buildEdgeList(int n, int* degree, int** adj);
-    void showEdgeList();
+    bool empty();
+    void add(int val);
+    void clear();
+    IntNode* getHead();
+    void print(std::ostream& out);
+};
 
-    int countIsolatedVertices(int n, int** matrix);
+struct EdgeNode {
+    int from;
+    int to;
+    EdgeNode* next;
+
+    EdgeNode(int f, int t);
+};
+
+class EdgeList {
+private:
+    EdgeNode* head;
+    EdgeNode* tail;
+
+public:
+    EdgeList();
+    ~EdgeList();
+
+    bool empty();
+    void add(int from, int to);
+    void clear();
+    EdgeNode* getHead();
+    void print(std::ostream& out);
+};
+class Graph {
+private:
+    int vertexCount;
+    IntList*adjList;
+
+public:
+    explicit Graph(int n);
+    ~Graph();
+
+    int getVertexCount();
+
+    void addEdge(int from, int to);
+
+    void loadFromMatrix(int** matrix, int n);
+
+    EdgeList* getEdgeList();
+
+    int countIsolated();
+
+    void print(std::ostream& out);
 };
