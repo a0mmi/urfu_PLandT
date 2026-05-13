@@ -54,7 +54,7 @@ private:
     IntList*adjList;
 
 public:
-    explicit Graph(int n);
+    Graph(int n);
     ~Graph();
 
     int getVertexCount();
