@@ -13,7 +13,9 @@ struct min_heap {
     int size;
     int capacity;
  
-    min_heap(int cap) : size(0), capacity(cap) {
+    min_heap(int cap) {
+        size = 0;
+        capacity = cap;
         data = new heap_node[cap];
     }
  
@@ -40,11 +42,11 @@ struct min_heap {
  
     void sift_down(int i) {
         while (true) {
-            int left  = 2 * i + 1;
+            int left = 2 * i + 1;
             int right = 2 * i + 2;
             int smallest = i;
  
-            if (left  < size && data[left].dist < data[smallest].dist) smallest = left;
+            if (left < size && data[left].dist < data[smallest].dist) smallest = left;
             if (right < size && data[right].dist < data[smallest].dist) smallest = right;
  
             if (smallest == i) break;
@@ -77,7 +79,7 @@ void dijkstra(int** adj, int n, int src, int* d) {
         d[i] = INF;
     d[src] = 0;
  
-    // В худшем случае в кучу попадёт n*n элементов (ленивое удаление)
+    // В самом херовом -> n*n вершинок
     min_heap h(n * n);
     h.push(0, src);
  
