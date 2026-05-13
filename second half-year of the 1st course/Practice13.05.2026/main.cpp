@@ -10,13 +10,15 @@ int main() {
     int n;
     fin >> n;
 
-    // Max possible edges in undirected graph n*(n-1)/2
+    // Максимальное число рёбер в неориентированном графе:
+    // каждая вершина может соединяться с (n-1) другими -отсюдова-> n*(n-1) упорядоченных пар
+    // но ребро (i,j) == (j,i), значит каждое посчитано дважды -> n*(n-1)/2
     int max_edges = n * (n - 1) / 2;
+    // edge_u и edge_v - начало и конец каждого ребра
     int* edge_u = new int[max_edges];
     int* edge_v = new int[max_edges];
     int m = 0;
 
-    // Read adjacency lists, collect edges only once (i < j)
     for (int i = 1; i <= n; i++) {
         int j;
         while (fin >> j && j != 0) {
@@ -28,7 +30,7 @@ int main() {
         }
     }
 
-    // Build incidence matrix n x m (zeroed out)
+    // mat инциндентности вся в нулях
     int** inc = new int*[n];
     for (int i = 0; i < n; i++) {
         inc[i] = new int[m]();
@@ -39,7 +41,7 @@ int main() {
         inc[edge_v[e] - 1][e] = 1;
     }
 
-    // Write n, m and incidence matrix to output file
+    // inc в выходной
     fout << n << " " << m << endl;
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < m; j++) {
@@ -49,9 +51,8 @@ int main() {
         fout << endl;
     }
 
-    cout << "Done. Vertices: " << n << ", Edges: " << m << endl;
+    cout << "Vertices: " << n << ", Edges: " << m << endl;
 
-    // Cleanup
     for (int i = 0; i < n; i++)
         delete[] inc[i];
     delete[] inc;
